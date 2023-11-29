@@ -3,12 +3,31 @@ import styles from './page.module.css'
 import React, { useState, useEffect } from 'react';
 import { fetchUsers, fetchPostsByUserId } from './api/api';
 import { User, Post } from './types';
+import Link from 'next/link';
 
 export default function Home() {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
   const [userPosts, setUserPosts] = useState<Post[]>([]);
   const [selectedUserName, setSelectedUserName] = useState<string | null>(null);
+  const [selectedUserEmail, setselectedUserEmail] = useState<string | null>(null);
+  const [selectedUserWebsite, setselectedUserWebsite] = useState<string | null>(null);
+
+  const formattedWebsite = selectedUserWebsite && selectedUserWebsite.startsWith('http') ? selectedUserWebsite : `http://${selectedUserWebsite}`;
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleMaskClick = () => {
+    handleCloseModal();
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,6 +47,8 @@ export default function Home() {
       const user = users.find((user) => user.id === userId);
       if (user) {
         setSelectedUserName(user.name);
+        setselectedUserEmail(user.email);
+        setselectedUserWebsite(user.website);
         setSelectedUserId(userId);
 
         const postsData: Post[] = await fetchPostsByUserId(userId);
@@ -55,7 +76,21 @@ export default function Home() {
 
       {selectedUserId && (
         <div className={styles.rightBox}>
-        <h2>Posts by <span>{selectedUserName}</span></h2>
+          <h2>Posts by <span id="open" onClick={handleOpenModal}>{selectedUserName}</span></h2>
+          {isModalOpen && (
+           <>
+          <div id="modal" className={styles.hidden}>
+            <h2>User Info</h2>
+            <p>Name : {selectedUserName}</p>
+            <p>Email : {selectedUserEmail}</p>
+            <p>Website : {selectedUserWebsite && <Link href={formattedWebsite} target="_blank" rel="noopener noreferrer">{selectedUserWebsite}</Link>}</p>
+            <div id="close" onClick={handleCloseModal}>
+                close
+            </div>
+          </div>
+          </>
+          )}
+          {isModalOpen && <div id="mask" className={styles.hidden} onClick={handleMaskClick}></div>}
           <ul className={styles.postList}>
             {userPosts.map((post) => (
               <li key={post.id}>
