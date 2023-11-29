@@ -43,6 +43,7 @@ export default function Home() {
       <h1>User & Post List from API</h1>
       <div className={styles.flexBox}>
         <div className={styles.leftBox}>
+          <h2>Select user</h2>
           <ul className={styles.userList}>
             {users.map((user) => (
               <li key={user.id} onClick={() => handleUserClick(user.id)}>
