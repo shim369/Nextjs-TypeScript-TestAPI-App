@@ -1,66 +1,70 @@
 "use client"
 import styles from './page.module.css'
 import React, { useState, useEffect } from 'react';
-import { fetchPosts, fetchUsers } from './api/api';
-
-interface User {
-  id: number;
-  name: string;
-}
-
-interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
-
-interface CombinedData extends Post {
-  user?: User;
-}
+import { fetchUsers, fetchPostsByUserId } from './api/api';
+import { User, Post } from './types';
 
 export default function Home() {
-  const [posts, setPosts] = useState<Post[]>([]);
   const [users, setUsers] = useState<User[]>([]);
-  const [combinedData, setCombinedData] = useState<CombinedData[]>([]);
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+  const [userPosts, setUserPosts] = useState<Post[]>([]);
+  const [selectedUserName, setSelectedUserName] = useState<string | null>(null);
 
-  
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const postsData = await fetchPosts();
-        const usersData = await fetchUsers();
-        
-        setPosts(postsData);
+        const usersData: User[] = await fetchUsers();
         setUsers(usersData);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching user data:', error);
       }
     };
 
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const combined = posts.map(post => {
-      const user = users.find(user => user.id === post.userId);
-      return { ...post, user };
-    });
-    setCombinedData(combined);
-  }, [posts, users]);
+  const handleUserClick = async (userId: number) => {
+    try {
+      const user = users.find((user) => user.id === userId);
+      if (user) {
+        setSelectedUserName(user.name);
+        setSelectedUserId(userId);
+
+        const postsData: Post[] = await fetchPostsByUserId(userId);
+        setUserPosts(postsData);
+      }
+    } catch (error) {
+      console.error('Error fetching user posts:', error);
+    }
+  };
 
   return (
     <div>
-      <h1>Post Data</h1>
-      <ul className={styles.ul}>
-        {combinedData.map(item => (
-          <li key={item.id} className={styles.li}>
-            <p><strong>{item.title}</strong></p>
-            <p>by {item.user ? item.user.name : 'Unknown User'}</p>
-            <p>{item.body}</p>
-          </li>
-        ))}
-      </ul>
+      <h1>User & Post List from API</h1>
+      <div className={styles.flexBox}>
+        <div className={styles.leftBox}>
+          <ul className={styles.userList}>
+            {users.map((user) => (
+              <li key={user.id} onClick={() => handleUserClick(user.id)}>
+                {user.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+      {selectedUserId && (
+        <div className={styles.rightBox}>
+        <h2>Posts by <span>{selectedUserName}</span></h2>
+          <ul className={styles.postList}>
+            {userPosts.map((post) => (
+              <li key={post.id}>
+                <p><strong>{post.title}</strong><br />{post.body}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      </div>
     </div>
   );
-}
+};

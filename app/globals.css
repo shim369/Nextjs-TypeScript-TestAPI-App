@@ -4,12 +4,46 @@
     box-sizing: border-box;
 }
 
+body {
+    background: #000;
+    color: #fff;
+}
+
 h1 {
     text-align: center;
     margin-top: 30px;
     margin-bottom: 30px;
 }
 
+h2 {
+    margin-bottom: 30px;
+}
+
+h2 span {
+    background: #fffb00;
+    padding: 4px;
+    color: #000;
+}
+
+ul {
+    list-style-type: none;
+    width: 100%;
+}
+
+li {
+    margin-bottom: 20px;
+}
+
 p {
     margin-bottom: 10px;
 }
+
+strong {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-size: 18px;
+    border-left: 4px solid #838383;
+    padding: 8px;
+    background: #383737ab;
+}
+

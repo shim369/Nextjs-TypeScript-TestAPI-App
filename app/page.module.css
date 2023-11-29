@@ -1,12 +1,41 @@
-.ul {
-    list-style-type: none;
-    width: 100%;
+.flexBox {
     display: flex;
-    flex-wrap: wrap;
 }
 
-.li {
-    margin-bottom: 20px;
-    width: 33%;
-    padding: 10px;
+.leftBox {
+    width: 25%;
+    padding: 20px;
+}
+
+.userList li {
+    cursor: pointer;
+    border-bottom: 1px solid #5f5e5e;
+}
+
+.userList li:hover {
+    color: #fffb00;
+}
+
+.rightBox {
+    width: 73%;
+    padding: 20px;
+}
+
+.postList li {
+    border-bottom: 2px dotted #5f5e5e;
+}
+
+@media (max-width: 896px) {
+
+    .flexBox {
+        flex-direction: column;
+    }
+    .leftBox {
+        width: 100%;
+        max-width: 100%;
+    }
+    .rightBox {
+        width: 100%;
+        min-width: 100%;
+    }
 }
