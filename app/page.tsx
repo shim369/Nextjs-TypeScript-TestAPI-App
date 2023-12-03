@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchUsers, fetchPostsByUserId } from './api/api';
 import { User, Post } from './types';
 import Link from 'next/link';
+import { UserList } from './components/UserList';
 
 export default function Home() {
   const [users, setUsers] = useState<User[]>([]);
@@ -65,13 +66,7 @@ export default function Home() {
       <div className={styles.flexBox}>
         <div className={styles.leftBox}>
           <h2>Select user</h2>
-          <ul className={styles.userList}>
-            {users.map((user) => (
-              <li key={user.id} onClick={() => handleUserClick(user.id)}>
-                {user.name}
-              </li>
-            ))}
-          </ul>
+          <UserList users={users} handleUserClick={handleUserClick} />
         </div>
 
       {selectedUserId && (
