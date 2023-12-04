@@ -10,7 +10,8 @@ export const PostList = ({ userPosts }: PostListProps) => {
         <ul className={styles.postList}>
         {userPosts.map((post) => (
             <li key={post.id}>
-            <p><strong>{post.title}</strong><br />{post.body}</p>
+            <p><strong>{post.title}</strong></p>
+            <p>{post.body}</p>
             </li>
         ))}
         </ul>
