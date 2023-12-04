@@ -57,25 +57,6 @@ strong {
     background: #383737ab;
 }
 
-#close {
-    cursor: pointer;
-    max-width: 200px;
-    width: 80%;
-    border-radius: 4px;
-    text-align: center;
-    padding: 12px 0;
-    margin: 30px auto 0;
-    background: #fffb00;
-    color: #818181;
-    border: 1px solid #818181;
-}
-
-#close:hover {
-    background: #818181;
-    color: #fffb00;
-    border: 1px solid #fffb00;
-}
-
 #mask {
     background: rgba(0, 0, 0, .6);
     position: fixed;

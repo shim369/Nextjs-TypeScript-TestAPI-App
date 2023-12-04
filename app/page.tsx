@@ -3,9 +3,10 @@ import styles from './page.module.css'
 import React, { useState, useEffect } from 'react';
 import { fetchUsers, fetchPostsByUserId } from './api/api';
 import { User, Post } from './types';
-import Link from 'next/link';
 import { UserList } from './components/UserList';
 import { PostList } from './components/PostList';
+import { Modal } from './components/Modal';
+import { Mask } from './components/Mask';
 
 export default function Home() {
   const [users, setUsers] = useState<User[]>([]);
@@ -73,20 +74,14 @@ export default function Home() {
       {selectedUserId && (
         <div className={styles.rightBox}>
           <h2>Posts by <span id="open" onClick={handleOpenModal}>{selectedUserName}</span></h2>
-          {isModalOpen && (
-           <>
-          <div id="modal" className={styles.hidden}>
-            <h2>User Info</h2>
-            <p>Name : {selectedUserName}</p>
-            <p>Email : {selectedUserEmail}</p>
-            <p>Website : {selectedUserWebsite && <Link href={formattedWebsite} target="_blank" rel="noopener noreferrer">{selectedUserWebsite}</Link>}</p>
-            <div id="close" onClick={handleCloseModal}>
-                close
-            </div>
-          </div>
-          </>
-          )}
-          {isModalOpen && <div id="mask" className={styles.hidden} onClick={handleMaskClick}></div>}
+          {isModalOpen && <Modal
+            selectedUserName={selectedUserName || ""}
+            selectedUserEmail={selectedUserEmail || ""}
+            selectedUserWebsite={selectedUserWebsite || ""}
+            formattedWebsite={formattedWebsite}
+            onClose={handleCloseModal}
+          />}
+          {isModalOpen && <Mask onClick={handleMaskClick} />}
           <PostList userPosts={userPosts} />
         </div>
       )}

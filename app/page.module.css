@@ -25,6 +25,24 @@
     border-bottom: 2px dotted #5f5e5e;
 }
 
+.closeBtn {
+    cursor: pointer;
+    width: 100%;
+    border-radius: 4px;
+    text-align: center;
+    padding: 12px 0;
+    margin: 10px auto 0;
+    background: #fffb00;
+    color: #818181;
+    border: 1px solid #818181;
+}
+
+.closeBtn:hover {
+    background: #818181;
+    color: #fffb00;
+    border: 1px solid #fffb00;
+}
+
 @media (max-width: 896px) {
     .flexBox {
         flex-direction: column;
