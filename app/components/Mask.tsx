@@ -6,5 +6,5 @@ interface MaskProps {
 }
 
 export const Mask = ({ onClick }: MaskProps) => (
-    <div id="mask" className={styles.hidden} onClick={onClick}></div>
+    <div id="mask" className={styles.hidden} onClick={onClick} data-testid="mask"></div>
 );
